@@ -11,3 +11,68 @@ Borrowing Rules:
 Late Fees: If a book is returned past its due date, a penalty of 10 rupees per day applies. Your system must calculate and display these overdue charges.
 
 Focus on implementing these core features to manage borrowing, returns, and penalties effectively!
+
+Class Diagram
+
+      +-------------------------------------------+
+      |                   Library                 |
+      +-------------------------------------------+
+      | - bookInventoryList: List<BookInventory>  |
+      | - bookKeepers: List<BookKeeper>           |
+      +-------------------------------------------+
+      | + addBook()                               |
+      | + borrowBook()                            |
+      | + returnBook()                            |
+      +-------------------------------------------+
+                     | manages
+                     v
+              +-------------------+
+              |  BookInventory    |
+              +-------------------+
+              | - book: Book      |
+              | - quantity: int   |
+              +-------------------+
+              | + borrowBook()    |
+              | + returnBook()    |
+              +-------------------+
+                     | contains
+                     v
+              +-------------------+
+              |       Book        |
+              +-------------------+
+              | - title: String   |
+              | - author: String  |
+              +-------------------+
+
+                Library tracks
+                       v
+                +--------------------------+
+                |   BookKeeper             |
+                +--------------------------+
+                | - PERDAYFINE: int        |
+                | - user: User             |
+                | - book: Book             |
+                | - borrowDate: LocalDate  |
+                | - dueDate: LocalDate     |
+                +--------------------------+
+                | + calculateFine()        |
+                +--------------------------+
+
+                +---------------------------+
+                |      User                 |<<abstract>>
+                +---------------------------+
+                | - name: String            |
+                | - libraryCardId: String   |
+                +---------------------------+
+                | + getMaxBooks(): int      |
+                | + getBorrowDays(): int    |
+                +---------------------------+
+                    ^                  ^
+                    |                  |
+                    |                  |
+    +------------------------+    +---------------------+
+    |         Student        |    |      Teacher        |
+    +------------------------+    +---------------------+
+    | + getMaxBooks()=3      |    + getMaxBooks()=5     |
+    | + getBorrowDays()=90   |    + getBorrowDays()=180 |
+    +------------------------+    +---------------------+
